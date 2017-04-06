@@ -1,4 +1,6 @@
 #Homeworks
 
-    HW1 - LEX
+HW1
+    
+    LEX
 
