@@ -3,10 +3,12 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
+    #include "hash.h"
     typedef unsigned long long int ulli;
     ulli Lines = 1;
     ulli CharPos = 1;
 %}
+/** Rules **/
 
 /* Others */
 NewLine_CRLF \r\n
@@ -71,6 +73,7 @@ Float {Integer}{Dot}{Unsign_Integer}
 Scientific_Float {Float}{Exponent}{Integer}
 
 
+
 /* Symbol of character */
 Single_Quote \'
 
@@ -96,8 +99,9 @@ SlashStar {Slash}{Star}
 StarSlash {Star}{Slash}
 
 /* Comment */
-Comment_CStyle {SlashStar}*{StarSlash}
 Comment_CPPStyle {Double_Slash}.*
+Comment_CStyle {SlashStar}*{StarSlash}
+
 
 
 
@@ -127,6 +131,11 @@ Identifier {IdentifierHeader}+{IdentifierLetter}*
     CharPos = 1;
 }
 
+{Comment_CPPStyle} {
+    printf("Line: %lli, 1st char: %lli, \"%s\" is a \"comment\".\n", Lines, CharPos, yytext);
+    CharPos += yyleng;
+}
+
 {Comment_CStyle} {
     int c1 = 0, c2 = input(), check = 1;
     printf("Line: %lli, 1st char: %lli, \"%s", Lines, CharPos, yytext);
@@ -154,11 +163,6 @@ Identifier {IdentifierHeader}+{IdentifierLetter}*
     } else {
         printf("\" is a \"comment\".\n");
     }
-}
-
-{Comment_CPPStyle} {
-    printf("Line: %lli, 1st char: %lli, \"%s\" is a \"comment\".\n", Lines, CharPos, yytext);
-    CharPos += yyleng;
 }
 
 {Symbol} {
