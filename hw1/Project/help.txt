@@ -1,0 +1,12 @@
+/*	Welcome to use the Makefile System	*/
+Version 1.0
+Author	Kelvin Lee
+
+You can type the keyword below.
+
+make
+	help	   	---to show this page.
+	scanner		---to compile the main program.
+	clean		---to remove the redundance file.
+	debug		---to compile the main program with debugging flag
+	test		---to run the program with test file

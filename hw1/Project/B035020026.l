@@ -99,8 +99,8 @@ SlashStar {Slash}{Star}
 StarSlash {Star}{Slash}
 
 /* Comment */
-Comment_CPPStyle {Double_Slash}.*
-Comment_CStyle {SlashStar}*{StarSlash}
+Comment_C {SlashStar}(.|{NewLine})*{StarSlash}
+Comment_CPP {Double_Slash}.*
 
 
 
@@ -112,9 +112,9 @@ ErrorToken [^\,\:\;\(\)\[\]\{\}\+\-\*\/\%\=\<\>\!\&\|\ \r\n\t]+
 /* Symbols of Identifiers */
 Uppercase [A-Z]
 Lowercase [a-z]
-IllSigns [\_\$]
+LegalSign [\_\$]
 Alphabat {Uppercase}|{Lowercase}
-IdentifierHeader {IllSigns}|{Alphabat}
+IdentifierHeader {LegalSign}|{Alphabat}
 IdentifierLetter {IdentifierHeader}|{Digit}
 
 /* Identifiers */
@@ -131,38 +131,16 @@ Identifier {IdentifierHeader}+{IdentifierLetter}*
     CharPos = 1;
 }
 
-{Comment_CPPStyle} {
+{Comment_C} {
+    char c, temp;
+    int err = 0;
     printf("Line: %lli, 1st char: %lli, \"%s\" is a \"comment\".\n", Lines, CharPos, yytext);
-    CharPos += yyleng;
+    Lines += yylineno;
 }
 
-{Comment_CStyle} {
-    int c1 = 0, c2 = input(), check = 1;
-    printf("Line: %lli, 1st char: %lli, \"%s", Lines, CharPos, yytext);
+{Comment_CPP} {
+    printf("Line: %lli, 1st char: %lli, \"%s\" is a \"comment\".\n", Lines, CharPos, yytext);
     CharPos += yyleng;
-    for (;;) {
-        if (c2 == EOF) {
-            check = 0;
-            break;
-        } else if (c2 == '\n') {
-            ++Lines;
-            CharPos = 1;
-        }
-        c1 = c2;
-        c2 = input();
-        ++CharPos;
-        printf("%c", c1);
-        if (c1 == '*' && c2 =='/') {
-            printf("/");
-            ++CharPos;
-            break;
-        }
-    }
-    if (!check) {
-        printf("\" is an \"error\".\n");
-    } else {
-        printf("\" is a \"comment\".\n");
-    }
 }
 
 {Symbol} {
@@ -250,7 +228,7 @@ Identifier {IdentifierHeader}+{IdentifierLetter}*
 
 
 {Identifier} {
-//    Insert(yytext);
+    insert(yytext);
     printf("Line: %lli, 1st char: %lli, \"%s\" is a \"ID\".\n", Lines, CharPos, yytext);
     CharPos += yyleng;
 }
@@ -263,8 +241,8 @@ Identifier {IdentifierHeader}+{IdentifierLetter}*
 %%
 //usr code
 main() {
-//    create();
+    create();
     yylex();
-//    dump();
+    dump();
     return 0;
 }

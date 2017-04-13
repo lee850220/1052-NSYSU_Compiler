@@ -5,31 +5,33 @@ LEX= flex
 OPTION= -lfl
 ARG=
 
-SOC= lex.yy.c
+SOC= lex.yy.c hash.c
 PRJ= B035020026.l
-TEST_PATH= TestFile_Lab1_2017/
 #************ Argument ***************/
 
 all: clean lex scanner
 
 test:
-	./scanner.out < ${TEST_PATH}Test1.java | more -d
-	@echo Press "ENTER" to continue.
-	@read
-	./scanner.out < ${TEST_ PATH}Test2.java | more -d
-	@echo Press "ENTER" to continue.
-	@read
-	./scanner.out < ${TEST_PATH}Test3.java | more -d
+	@clear
+	@./scanner.out < Test.java > result
+	@cat result | more -d
 	
-
 lex: ${PRJ}
 	${LEX} ${PRJ}
 
 scanner: ${SOC}
 	${CC} ${SOC} ${OPTION} -o $@.out
 
+debug: clean lex ${SOC}
+	${CC} -g ${SOC} ${OPTION}
+	gdb -q a.out
+
 *.o: *.c
 	${CC} $^ ${OPTION} -o $@
 
 clean:
 	@rm -rf lex.yy.c *.o *.out
+
+help:
+	clear
+	@cat help.txt
