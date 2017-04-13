@@ -1,6 +1,8 @@
 # Homeworks
 
-HW1
+HW1 - 以LEX製作Scanner
     
-    LEX
+    程式分為兩大部分：Scanner & Symbol Table
+    Scanner用來辨別JAVA語言
+    
 
