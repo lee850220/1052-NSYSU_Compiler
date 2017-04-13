@@ -30,7 +30,7 @@ debug: clean lex ${SOC}
 	${CC} $^ ${OPTION} -o $@
 
 clean:
-	@rm -rf lex.yy.c *.o *.out
+	@rm -rf lex.yy.c *.o *.out result
 
 help:
 	clear
