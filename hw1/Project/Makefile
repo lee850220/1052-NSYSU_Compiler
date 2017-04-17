@@ -14,7 +14,7 @@ all: clean lex scanner
 test:
 	@clear
 	@./scanner.out < Test.java > result
-	@cat result | more -d
+	@cat result | less -d
 	
 lex: ${PRJ}
 	${LEX} ${PRJ}
