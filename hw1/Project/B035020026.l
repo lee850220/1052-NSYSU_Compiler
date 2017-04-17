@@ -78,7 +78,7 @@ Scientific_Float {Float}{Exponent}{Integer}
 Single_Quote \'
 
 /* Character */
-Character {Single_Quote}(\\.|[^\\]){Single_Quote}
+Character {Single_Quote}(\\[nrtbfv0]|[^\\]){Single_Quote}
 
 
 /* Symbol of String */
